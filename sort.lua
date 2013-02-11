@@ -27,12 +27,16 @@ directions.west = directions["-X"]
 print('sorting...')
 s = peripheral.wrap('right')
 
---s.sort(directions.north, 1)
-uuid, count = os.pullEvent('isort_item')
-s.sort(directions.north, 32)
-if count > 32 then
-  sleep(1)
-  s.sort(directions.north, 32)
+while true do
+  local event, uuid, count = os.pullEvent('isort_item')
+  print(uuid..','..count)
+  id, meta = deMungeId(uuid)
+  print('item '..id)
+  if id == 3 then
+    s.sort(directions.west)
+  else
+    s.sort(directions.north)
+  end
 end
 
 -- for k,v in pairs(s.list(SOUTH)) do

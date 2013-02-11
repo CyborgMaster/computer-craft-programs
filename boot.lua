@@ -16,3 +16,4 @@ end
 
 getFile('run')
 getFile('boot')
+getFile('get')
