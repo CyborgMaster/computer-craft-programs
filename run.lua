@@ -5,4 +5,4 @@ f = http.get('http://jrm.homenet.org/ComputerCraft/'..name..'.lua')
 if not f then
   error('Could not download file '..name..'!')
 end
-loadstring(f.readAll())()
+assert(loadstring(f.readAll()))()
