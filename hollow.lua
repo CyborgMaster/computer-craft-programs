@@ -37,6 +37,7 @@ goDown = function()
 end
 
 go = function(direction)
+  direction = direction:normalize()
   if vecEql(direction, up) then
     goUp()
   elseif vecEql(direction, down) then
@@ -123,20 +124,23 @@ end
 
 goHome = function()
   while position.z ~= 0 do
-    go(vector.new(0, 0, postion.z):normalize())
+    go(vector.new(0, 0, -postion.z))
   end
   while position.x ~= 0 do
-    go(vector.new(position.x, 0, 0):normalize())
+    go(vector.new(-position.x, 0, 0))
   end
   while position.y ~= 0 do
-    go(vector.new(0, position.y, 0):normalize())
+    go(vector.new(0, -position.y, 0))
   end
 end
 
-turtle.select(1)
+if turtle.getItemCount(1) ~= 1 then
+  error("Put 1 of the border item into slot one first")
+end
 
 print('Hollowing room...')
 
+turtle.select(1)
 while not turtle.compare() do
   goForward()
 end
