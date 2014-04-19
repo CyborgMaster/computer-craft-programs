@@ -175,11 +175,11 @@ print('Hollowing room...')
 print('Discovering room size...')
 
 -- Z direction
-while not turtle.compareUp() do
-  goUp()
+while not turtle.compareDown() do
+  goDown()
 end
 -- Eat the border item
-goUp()
+goDown()
 roomVector.z = position.z
 print('Z: ', roomVector.z + 1)
 
