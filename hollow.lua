@@ -19,7 +19,10 @@ goForward = function()
   if turtle.detect() then
     turtle.dig()
   end
-  turtle.forward()
+  while not turtle.forward() do
+    print('Something is in my way!')
+    sleep(1)
+  end
   position = position + facing
 end
 
@@ -27,7 +30,10 @@ goUp = function()
   if turtle.detectUp() then
     turtle.digUp()
   end
-  turtle.up()
+  while not turtle.up() do
+    print('Something is in my way!')
+    sleep(1)
+  end
   position = position + UP
 end
 
@@ -35,7 +41,10 @@ goDown = function()
   if turtle.detectUp() then
     turtle.digUp()
   end
-  turtle.down()
+  while not turtle.down() do
+    print('Something is in my way!')
+    sleep(1)
+  end
   position = position + DOWN
 end
 
