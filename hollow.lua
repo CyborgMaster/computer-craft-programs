@@ -15,6 +15,15 @@ roomVector = vector.new()
 -- Start facing NORTH
 facing = NORTH
 
+isnan = function(x) return x ~= x end
+
+isDirection = function(v)
+  return vecEql(direction, NORTH) or
+    vecEql(direction, SOUTH) or
+    vecEql(direction, EAST) or
+    vecEql(direction, WEST)
+end
+
 goForward = function()
   while turtle.detect() do -- loop to handle sand and gravel
     turtle.dig()
@@ -89,6 +98,10 @@ end
 face = function(direction)
   if vecEql(facing, direction) then
     return
+  end
+
+  if not(isDirection(direction)) then
+    error(direction..' is not a valid direction vector'
   end
 
   print('Turning to face: ', direction)
