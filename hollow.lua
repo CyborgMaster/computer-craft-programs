@@ -9,8 +9,8 @@ DOWN  = vector.new( 0,  0, -1)
 -- Start at origin
 position = vector.new(0, 0, 0)
 
---- We don't know the size of our room yet
-roomSize = vector.new()
+--- Will be a vector that points to the opposite corner of the room
+roomVector = vector.new()
 
 -- Start facing NORTH
 facing = NORTH
@@ -163,10 +163,10 @@ end
 -- Eat the border item
 goForward()
 
-roomSize.y = position.y
-print('Y: '..(roomSize.y + 1))
+roomVector.y = position.y
+print('Y: ', roomVector.y + 1)
 
 goHome()
 face(NORTH)
 
-print('Size:', roomSize)
+print('Size: ', roomVector + vector.new(1, 1, 1))
