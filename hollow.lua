@@ -138,12 +138,6 @@ goHome = function()
   local dir
   print('Going home...');
 
-  if (position.z ~= 0) then
-    dir = vector.new(0, 0, -postion.z)
-    while position.z ~= 0 do
-      go(dir)
-    end
-  end
   if position.x ~= 0 then
     dir = vector.new(-position.x, 0, 0)
     while position.x ~= 0 do
@@ -153,6 +147,12 @@ goHome = function()
   if position.y ~= 0 then
     dir = vector.new(0, -position.y, 0)
     while position.y ~= 0 do
+      go(dir)
+    end
+  end
+  if (position.z ~= 0) then
+    dir = vector.new(0, 0, -position.z)
+    while position.z ~= 0 do
       go(dir)
     end
   end
@@ -175,11 +175,11 @@ print('Hollowing room...')
 print('Discovering room size...')
 
 -- Z direction
-while not turtle.compareDown() do
-  goDown()
+while not turtle.compareUp() do
+  goUp()
 end
 -- Eat the border item
-goDown()
+goUp()
 roomVector.z = position.z
 print('Z: ', roomVector.z + 1)
 
@@ -189,7 +189,7 @@ roomVector.y = position.y
 print('Y: ', roomVector.y + 1)
 
 -- X direction
-turnLeft()
+turnRight()
 forwardToBorder()
 roomVector.x = position.x
 print('X: ', roomVector.x + 1)
