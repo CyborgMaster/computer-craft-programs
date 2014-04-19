@@ -8,7 +8,10 @@ fs.makeDir('/jeremy')
 
 getFile = function(name)
   local f, h
-  f = http.get('http://jrm.homenet.org/ComputerCraft/'..name..'.lua.txt')
+  f = http.get('http://jrm.homenet.org/ComputerCraft/'..name..'.lua')
+  if not f then
+    error('Could not download file '..name..'!')
+  end
   h = fs.open('/jeremy/'..name, 'w')
   h.write(f.readAll())
   h.close()
