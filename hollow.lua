@@ -9,6 +9,9 @@ DOWN  = vector.new( 0,  0, -1)
 -- Start at origin
 position = vector.new(0, 0, 0)
 
+--- We don't know the size of our room yet
+roomSize = vector.new()
+
 -- Start facing NORTH
 facing = NORTH
 
@@ -148,15 +151,22 @@ end
 if turtle.getItemCount(1) ~= 1 then
   error("Put 1 of the border item into slot one first")
 end
+turtle.select(1)
 
 print('Hollowing room...')
+print('Discovering room size...')
 
-turtle.select(1)
 while not turtle.compare() do
   goForward()
 end
 
+-- Eat the border item
+goForward()
+
+roomSize.y = position.y
+print('Y: '..(roomSize.y + 1))
+
 goHome()
 face(NORTH)
 
-print(position)
+print('Size:', roomSize)
