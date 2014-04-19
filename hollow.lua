@@ -38,8 +38,8 @@ goUp = function()
 end
 
 goDown = function()
-  if turtle.detectUp() then
-    turtle.digUp()
+  if turtle.detectDown() then
+    turtle.digDown()
   end
   while not turtle.down() do
     print('Something is in my way!')
