@@ -1,16 +1,16 @@
 -- Direction Constants
-east  = vector.new( 1,  0,  0)
-west  = vector.new(-1,  0,  0)
-north = vector.new( 0,  1,  0)
-south = vector.new( 0, -1,  0)
-up    = vector.new( 0,  0,  1)
-down  = vector.new( 0,  0, -1)
+EAST  = vector.new( 1,  0,  0)
+WEST  = vector.new(-1,  0,  0)
+NORTH = vector.new( 0,  1,  0)
+SOUTH = vector.new( 0, -1,  0)
+UP    = vector.new( 0,  0,  1)
+DOWN  = vector.new( 0,  0, -1)
 
 -- Start at origin
 position = vector.new(0, 0, 0)
 
--- Start facing north
-facing = north
+-- Start facing NORTH
+facing = NORTH
 
 goForward = function()
   if turtle.detect() then
@@ -25,93 +25,93 @@ goUp = function()
     turtle.digUp()
   end
   turtle.up()
-  position = position + up
+  position = position + UP
 end
 
 goDown = function()
   if turtle.detectUp() then
     turtle.digUp()
   end
-  turtle.up()
-  position = position + down
+  turtle.down()
+  position = position + DOWN
 end
 
 go = function(direction)
   direction = direction:normalize()
-  if vecEql(direction, up) then
+  if vecEql(direction, UP) then
     goUp()
-  elseif vecEql(direction, down) then
+  elseif vecEql(direction, DOWN) then
     goDown()
   else
-    turnTowards(direction)
+    face(direction)
     goForward()
   end
 end
 
 turnLeft = function()
   turtle.turnLeft()
-  if vecEql(facing, east) then
-    facing = north
-  elseif vecEql(facing, north) then
-    facing = west
-  elseif vecEql(facing, west) then
-    facing = south
-  elseif vecEql(facing, south) then
-    facing = east
+  if vecEql(facing, EAST) then
+    facing = NORTH
+  elseif vecEql(facing, NORTH) then
+    facing = WEST
+  elseif vecEql(facing, WEST) then
+    facing = SOUTH
+  elseif vecEql(facing, SOUTH) then
+    facing = EAST
   end
 end
 
 turnRight = function()
   turtle.turnRight()
-  if vecEql(facing, east) then
-    facing = south
-  elseif vecEql(facing, south) then
-    facing = west
-  elseif vecEql(facing, west) then
-    facing = north
-  elseif vecEql(facing, north) then
-    facing = east
+  if vecEql(facing, EAST) then
+    facing = SOUTH
+  elseif vecEql(facing, SOUTH) then
+    facing = WEST
+  elseif vecEql(facing, WEST) then
+    facing = NORTH
+  elseif vecEql(facing, NORTH) then
+    facing = EAST
   end
 end
 
-turnTowards = function(direction)
+face = function(direction)
   if vecEql(facing, direction) then
     return
   end
 
-  if vecEql(facing, north) then
-    if vecEql(direction, east) then
+  if vecEql(facing, NORTH) then
+    if vecEql(direction, EAST) then
       turnRight()
-    elseif vecEql(direction, west) then
+    elseif vecEql(direction, WEST) then
       turnLeft()
-    elseif vecEql(direction, south) then
+    elseif vecEql(direction, SOUTH) then
       turnRight()
       turnRight()
     end
-  elseif vecEql(facing, east) then
-    if vecEql(direction, south) then
+  elseif vecEql(facing, EAST) then
+    if vecEql(direction, SOUTH) then
       turnRight()
-    elseif vecEql(direction, north) then
+    elseif vecEql(direction, NORTH) then
       turnLeft()
-    elseif vecEql(direction, west) then
+    elseif vecEql(direction, WEST) then
       turnRight()
       turnRight()
     end
-  elseif vecEql(facing, south) then
-    if vecEql(direction, west) then
+  elseif vecEql(facing, SOUTH) then
+    if vecEql(direction, WEST) then
       turnRight()
-    elseif vecEql(direction, east) then
+    elseif vecEql(direction, EAST) then
       turnLeft()
-    elseif vecEql(direction, north) then
+    elseif vecEql(direction, NORTH) then
       turnRight()
       turnRight()
     end
-  elseif vecEql(facing, west) then
-    if vecEql(direction, north) then
+  elseif vecEql(facing, WEST) then
+    if vecEql(direction, NORTH) then
       turnRight()
-    elseif vecEql(direction, south) then
+    elseif vecEql(direction, SOUTH) then
       turnLeft()
-    elseif vecEql(direction, east) then
+    elseif vecEql(direction, EAST) then
       turnRight()
       turnRight()
     end
@@ -157,5 +157,6 @@ while not turtle.compare() do
 end
 
 goHome()
+face(NORTH)
 
 print(position)
