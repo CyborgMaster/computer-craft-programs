@@ -135,35 +135,33 @@ vecEql = function(v1, v2)
 end
 
 goHome = function()
-  local dir
-  print('Going home...');
-
-  if position.x ~= 0 then
-    dir = vector.new(-position.x, 0, 0)
-    while position.x ~= 0 do
-      go(dir)
-    end
-  end
-  if position.y ~= 0 then
-    dir = vector.new(0, -position.y, 0)
-    while position.y ~= 0 do
-      go(dir)
-    end
-  end
-  if (position.z ~= 0) then
-    dir = vector.new(0, 0, -position.z)
-    while position.z ~= 0 do
-      go(dir)
-    end
-  end
+  print('Going home...')
+  goTo(vector.new(0, 0, 0))
 end
 
-forwardToBorder = function()
-  while not turtle.compare() do
-    goForward()
+goTo = function(loc)
+  local dir
+
+  print('Going too ', loc)
+
+  if position.x ~= loc.x then
+    dir = vector.new(-position.x, 0, 0)
+    while position.x ~= loc.x do
+      go(dir)
+    end
   end
-  -- Eat the border item
-  goForward()
+  if position.y ~= loc.y then
+    dir = vector.new(0, -position.y, 0)
+    while position.y ~= loc.y do
+      go(dir)
+    end
+  end
+  if (position.z ~= loc.z) then
+    dir = vector.new(0, 0, -position.z)
+    while position.z ~= loc.z do
+      go(dir)
+    end
+  end
 end
 
 if turtle.getItemCount(1) ~= 1 then
@@ -184,13 +182,21 @@ roomVector.z = position.z
 print('Z: ', roomVector.z + 1)
 
 -- Y direction
-forwardToBorder()
+while not turtle.compare() do
+  goForward()
+end
+-- Eat the border item
+goForward()
 roomVector.y = position.y
 print('Y: ', roomVector.y + 1)
 
 -- X direction
 turnRight()
-forwardToBorder()
+while not turtle.compare() do
+  goForward()
+end
+-- Eat the border item
+goForward()
 roomVector.x = position.x
 print('X: ', roomVector.x + 1)
 
