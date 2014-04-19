@@ -172,8 +172,8 @@ print('Y: ', roomVector.y + 1)
 -- X direction
 turnLeft()
 forwardToBorder()
-roomVector.y = position.y
-print('Y: ', roomVector.y + 1)
+roomVector.x = position.x
+print('X: ', roomVector.x + 1)
 
 goHome()
 face(NORTH)
