@@ -96,7 +96,7 @@ turnTowards = function(direction)
       turnRight()
       turnRight()
     end
-  if vecEql(facing, south) then
+  elseif vecEql(facing, south) then
     if vecEql(direction, west) then
       turnRight()
     elseif vecEql(direction, east) then
@@ -105,7 +105,7 @@ turnTowards = function(direction)
       turnRight()
       turnRight()
     end
-  if vecEql(facing, west) then
+  elseif vecEql(facing, west) then
     if vecEql(direction, north) then
       turnRight()
     elseif vecEql(direction, south) then
@@ -122,22 +122,25 @@ vecEql = function(v1, v2)
 end
 
 goHome = function()
-  while position.z != 0 do
-    goTowards(vector.new(0, 0, postion.z):normalize())
+  while position.z ~= 0 do
+    go(vector.new(0, 0, postion.z):normalize())
   end
-  while position.x != 0 do
-    goTowards(vector.new(position.x, 0, 0):normalize())
+  while position.x ~= 0 do
+    go(vector.new(position.x, 0, 0):normalize())
   end
-  while position.y != 0 do
-    goTowards(vector.new(0, postion.y, 0):normalize())
+  while position.y ~= 0 do
+    go(vector.new(0, position.y, 0):normalize())
   end
 end
+
+turtle.select(1)
 
 print('Hollowing room...')
 
-turtle.select(1)
 while not turtle.compare() do
-  forward()
+  goForward()
 end
+
+goHome()
 
 print(position)
