@@ -142,7 +142,7 @@ end
 goTo = function(loc)
   local dir
 
-  print('Going too ', loc)
+  print('Going to ', loc)
 
   if position.x ~= loc.x then
     dir = vector.new(-position.x, 0, 0)
