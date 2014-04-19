@@ -204,6 +204,15 @@ goForward()
 roomVector.x = position.x
 print('X: ', roomVector.x + 1)
 
+goTo(vector.new(0, 0, roomVector.z))
+
+out = false
+repeat
+  goTo(vector.new(out and 0 or roomVector.x, position.y, position.z))
+  out = not out
+  goDown()
+until position.z == 0
+
 goHome()
 face(NORTH)
 
