@@ -16,7 +16,7 @@ roomVector = vector.new()
 facing = NORTH
 
 goForward = function()
-  if turtle.detect() then
+  while turtle.detect() do -- loop to handle sand and gravel
     turtle.dig()
   end
   while not turtle.forward() do
@@ -27,7 +27,7 @@ goForward = function()
 end
 
 goUp = function()
-  if turtle.detectUp() then
+  while turtle.detectUp() do -- loop to handle sand and gravel
     turtle.digUp()
   end
   while not turtle.up() do
