@@ -136,6 +136,7 @@ end
 
 goHome = function()
   local dir
+  print('Going home...');
 
   if (position.z ~= 0) then
     dir = vector.new(0, 0, -postion.z)
