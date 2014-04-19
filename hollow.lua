@@ -39,18 +39,6 @@ goDown = function()
   position = position + DOWN
 end
 
-go = function(direction)
-  direction = direction:normalize()
-  if vecEql(direction, UP) then
-    goUp()
-  elseif vecEql(direction, DOWN) then
-    goDown()
-  else
-    face(direction)
-    goForward()
-  end
-end
-
 turnLeft = function()
   turtle.turnLeft()
   if vecEql(facing, EAST) then
@@ -74,6 +62,18 @@ turnRight = function()
     facing = NORTH
   elseif vecEql(facing, NORTH) then
     facing = EAST
+  end
+end
+
+go = function(direction)
+  direction = direction:normalize()
+  if vecEql(direction, UP) then
+    goUp()
+  elseif vecEql(direction, DOWN) then
+    goDown()
+  else
+    face(direction)
+    goForward()
   end
 end
 
@@ -148,6 +148,14 @@ goHome = function()
   end
 end
 
+forwardToBorder = function()
+  while not turtle.compare() do
+    goForward()
+  end
+  -- Eat the border item
+  goForward()
+end
+
 if turtle.getItemCount(1) ~= 1 then
   error("Put 1 of the border item into slot one first")
 end
@@ -156,13 +164,14 @@ turtle.select(1)
 print('Hollowing room...')
 print('Discovering room size...')
 
-while not turtle.compare() do
-  goForward()
-end
+-- Y direction
+forwardToBorder()
+roomVector.y = position.y
+print('Y: ', roomVector.y + 1)
 
--- Eat the border item
-goForward()
-
+-- X direction
+turnLeft()
+forwardToBorder()
 roomVector.y = position.y
 print('Y: ', roomVector.y + 1)
 
