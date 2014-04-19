@@ -123,14 +123,25 @@ vecEql = function(v1, v2)
 end
 
 goHome = function()
-  while position.z ~= 0 do
-    go(vector.new(0, 0, -postion.z))
+  local dir
+
+  if (position.z ~= 0) then
+    dir = vector.new(0, 0, -postion.z)
+    while position.z ~= 0 do
+      go(dir)
+    end
   end
-  while position.x ~= 0 do
-    go(vector.new(-position.x, 0, 0))
+  if position.x ~= 0 then
+    dir = vector.new(-position.x, 0, 0)
+    while position.x ~= 0 do
+      go(dir)
+    end
   end
-  while position.y ~= 0 do
-    go(vector.new(0, -position.y, 0))
+  if position.y ~= 0 then
+    dir = vector.new(0, -position.y, 0)
+    while position.y ~= 0 do
+      go(dir)
+    end
   end
 end
 
