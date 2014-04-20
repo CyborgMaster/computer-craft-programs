@@ -189,8 +189,12 @@ inside = function(boundary1, boundary2, vector)
     boundary1.z <= vector.z and vector.z <= boundary2.z
 end
 
+insideRoom = function(vector)
+  return inside(ORIGIN, roomVector, vector)
+end
+
 bounce = function(direction, afterEvery)
-  while inside(ORIGIN, roomVector, position + direction) do
+  while insideRoom(position + direction) do
     move(direction)
     if type(afterEvery) == 'function' then
       afterEvery()
@@ -253,11 +257,13 @@ goTo(vector.new(0, 0, roomVector.z))
 -- end
 
 xDir = vector.new(1, 0, 0)
+zDir = vector.new(0, 0, -1)
 
 while true do
-  xDir = bounce(xDir)
-  if position.z == 0 then break end
-  moveDown()
+  zDir = bounce(zDir,
+                function()
+                  xDir = bounce(xDir)
+                end)
 end
 
 goHome()
