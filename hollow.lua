@@ -266,17 +266,23 @@ print('Discovering room size...')
 roomVector = discoverRoomSize()
 
 print('Going to start location...')
-goTo(vector.new(0, 0, roomVector.z))
+goTo(vector.new(0, 0, roomVector.z - 1)) -- Go one below because we dig up
 
 xDir = vector.new(1, 0, 0)
 zDir = vector.new(0, 0, -1)
 
 while true do
   print('Hollowing slice...')
-  zDir = bounce(zDir, 1,
-                function()
-                  xDir = bounce(xDir, 0, function() digDown(); digUp(); end)
-                end)
+  zDir = bounce(
+    zDir, 1,
+    function()
+      xDir = bounce(
+        xDir, 0,
+        function()
+          if insideRoom(position + UP) then digUp() end
+          if insideRoom(position + DOWN) then digDown() end
+        end)
+    end)
   if not insideRoom(position + NORTH) then break end
   move(NORTH)
 end
