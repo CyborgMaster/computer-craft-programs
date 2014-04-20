@@ -27,9 +27,7 @@ isDirection = function(v)
 end
 
 moveForward = function()
-  while turtle.detect() do -- loop to handle sand and gravel
-    turtle.dig()
-  end
+  digForward()
   while not turtle.forward() do
     print('Something is in my way!')
     sleep(1)
@@ -37,10 +35,14 @@ moveForward = function()
   position = position + facing
 end
 
-moveUp = function()
-  while turtle.detectUp() do -- loop to handle sand and gravel
-    turtle.digUp()
+digForward = function()
+  while turtle.detect() do -- loop to handle sand and gravel
+    turtle.dig()
   end
+end
+
+moveUp = function()
+  digUp()
   while not turtle.up() do
     print('Something is in my way!')
     sleep(1)
@@ -48,15 +50,25 @@ moveUp = function()
   position = position + UP
 end
 
-moveDown = function()
-  if turtle.detectDown() then
-    turtle.digDown()
+digUp = function()
+  while turtle.detectUp() do -- loop to handle sand and gravel
+    turtle.digUp()
   end
+end
+
+moveDown = function()
+  digDown()
   while not turtle.down() do
     print('Something is in my way!')
     sleep(1)
   end
   position = position + DOWN
+end
+
+digDown = function()
+  if turtle.detectDown() then
+    turtle.digDown()
+  end
 end
 
 turnLeft = function()
@@ -193,13 +205,18 @@ insideRoom = function(vector)
   return inside(ORIGIN, roomVector, vector)
 end
 
-bounce = function(direction, beforeEvery)
+bounce = function(direction, reach, beforeEvery)
+  reach = reach or 0
+  beforeEvery = beforeEvery or function() end
   while true do
-    if type(beforeEvery) == 'function' then
-      beforeEvery()
+    beforeEvery()
+    moved = false
+    for i=1, reach * 2 + 1 do
+      if not insideRoom(position + direction * (reach + 1)) then break end
+      move(direction)
+      moved = true
     end
-    if not insideRoom(position + direction) then break end
-    move(direction)
+    if not moved then break end
   end
   return direction * -1;
 end
@@ -256,9 +273,9 @@ zDir = vector.new(0, 0, -1)
 
 while true do
   print('Hollowing slice...')
-  zDir = bounce(zDir,
+  zDir = bounce(zDir, 1,
                 function()
-                  xDir = bounce(xDir)
+                  xDir = bounce(xDir, 0, function() digDown(); digUp(); end)
                 end)
   if not insideRoom(position + NORTH) then break end
   move(NORTH)
