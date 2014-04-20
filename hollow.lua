@@ -31,12 +31,37 @@ checkFuel = function()
     print('Out of fuel! Place fuel in slot 2.')
     oldSelected = turtle.getSelected()
     turtle.select(2)
-    while true do
+    while turtle.getFuelLevel <= 0 do
       turtle.refuel()
-      if turtle.getFuelLevel > 0 then break end
       sleep(10)
     end
     turtle.select(oldSelected)
+  end
+end
+
+checkInventory = function()
+  if turtle.getItemCount(16) > 0 then
+    print('Full Inventory! Remove everything but the border item')
+    repeat
+      sleep(10)
+      empty = true
+      for slot=2, 16 do -- don't check the border item
+        if turtle.getItemCount(slot) > 0 then
+          empty = false
+          break
+        end
+      end
+    until empty
+    ensureBorderItem()
+  end
+end
+
+ensureBorderItem = function()
+  if turtle.getItemCount(1) <= 0 then
+    print("Put the border item into slot one.")
+    while turtle.getItemCount(1) <= 0 do
+      sleep(1)
+    end
   end
 end
 
@@ -272,10 +297,7 @@ discoverRoomSize = function()
   return vector.new(x, y, z)
 end
 
-if turtle.getItemCount(1) ~= 1 then
-  error("Put 1 of the border item into slot one first")
-end
-turtle.select(1)
+ensureBorderItem()
 
 print('Hollowing room...')
 
