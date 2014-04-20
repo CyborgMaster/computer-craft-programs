@@ -29,7 +29,7 @@ end
 checkFuel = function()
   if turtle.getFuelLevel() <= 0 then
     print('Out of fuel! Place fuel in slot 2.')
-    oldSelected = turtle.getSelected()
+    oldSelected = turtle.getSelectedSlot()
     turtle.select(2)
     while turtle.getFuelLevel <= 0 do
       turtle.refuel()
