@@ -6,8 +6,10 @@ SOUTH = vector.new( 0, -1,  0)
 UP    = vector.new( 0,  0,  1)
 DOWN  = vector.new( 0,  0, -1)
 
+ORIGIN = vector.new(0, 0, 0)
+
 -- Start at origin
-position = vector.new(0, 0, 0)
+position = ORIGIN
 
 --- Will be a vector that points to the opposite corner of the room
 roomVector = vector.new()
@@ -181,6 +183,53 @@ goTo = function(loc)
   end
 end
 
+inside = function(boundary1, boundary2, vector)
+  return boundary1.x <= vector.x and vector.x <= boundary2.x and
+    boundary1.y <= vector.y and vector.y <= boundary2.y and
+    boundary1.z <= vector.z and vector.z <= boundary2.z
+end
+
+bounce = function(direction)
+  while inside(ORIGN, roomVector, position + direction) do
+    go(direction)
+  end
+  return direction * -1;
+end
+
+discoverRoomSize = function()
+  local x, y, z
+
+  -- Z direction
+  while not turtle.compareUp() do
+    moveUp()
+  end
+  -- Eat the border item
+  moveUp()
+  z = position.z
+  print('Z: ', z + 1)
+
+  -- Y direction
+  while not turtle.compare() do
+    moveForward()
+  end
+  -- Eat the border item
+  moveForward()
+  y = position.y
+  print('Y: ', y + 1)
+
+  -- X direction
+  turnRight()
+  while not turtle.compare() do
+    moveForward()
+  end
+  -- Eat the border item
+  moveForward()
+  x = position.x
+  print('X: ', x + 1)
+
+  return vector.new(x, y, z)
+end
+
 if turtle.getItemCount(1) ~= 1 then
   error("Put 1 of the border item into slot one first")
 end
@@ -189,41 +238,22 @@ turtle.select(1)
 print('Hollowing room...')
 print('Discovering room size...')
 
--- Z direction
-while not turtle.compareUp() do
-  moveUp()
-end
--- Eat the border item
-moveUp()
-roomVector.z = position.z
-print('Z: ', roomVector.z + 1)
-
--- Y direction
-while not turtle.compare() do
-  moveForward()
-end
--- Eat the border item
-moveForward()
-roomVector.y = position.y
-print('Y: ', roomVector.y + 1)
-
--- X direction
-turnRight()
-while not turtle.compare() do
-  moveForward()
-end
--- Eat the border item
-moveForward()
-roomVector.x = position.x
-print('X: ', roomVector.x + 1)
+roomVector = discoverRoomSize()
 
 goTo(vector.new(0, 0, roomVector.z))
 
-goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
-while position.z ~= 0 do
-  moveDown()
-  goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
-end
+-- goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
+-- while position.z ~= 0 do
+--   moveDown()
+--   goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
+-- end
+
+dir = vector.new(1, 0, 0)
+dir = bounce(dir)
+moveDown()
+dir = bounce(dir)
+moveDown()
+dir = bounce(dir)
 
 goHome()
 face(NORTH)
