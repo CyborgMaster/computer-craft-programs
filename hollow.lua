@@ -18,10 +18,10 @@ facing = NORTH
 isnan = function(x) return x ~= x end
 
 isDirection = function(v)
-  return vecEql(direction, NORTH) or
-    vecEql(direction, SOUTH) or
-    vecEql(direction, EAST) or
-    vecEql(direction, WEST)
+  return vecEql(v, NORTH) or
+    vecEql(v, SOUTH) or
+    vecEql(v, EAST) or
+    vecEql(v, WEST)
 end
 
 goForward = function()
