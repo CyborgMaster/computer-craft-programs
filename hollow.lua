@@ -24,7 +24,7 @@ isDirection = function(v)
     vecEql(v, WEST)
 end
 
-goForward = function()
+moveForward = function()
   while turtle.detect() do -- loop to handle sand and gravel
     turtle.dig()
   end
@@ -35,7 +35,7 @@ goForward = function()
   position = position + facing
 end
 
-goUp = function()
+moveUp = function()
   while turtle.detectUp() do -- loop to handle sand and gravel
     turtle.digUp()
   end
@@ -46,7 +46,7 @@ goUp = function()
   position = position + UP
 end
 
-goDown = function()
+moveDown = function()
   if turtle.detectDown() then
     turtle.digDown()
   end
@@ -83,15 +83,15 @@ turnRight = function()
   end
 end
 
-go = function(direction)
+move = function(direction)
   direction = direction:normalize()
   if vecEql(direction, UP) then
-    goUp()
+    moveUp()
   elseif vecEql(direction, DOWN) then
-    goDown()
+    moveDown()
   else
     face(direction)
-    goForward()
+    moveForward()
   end
 end
 
@@ -162,21 +162,21 @@ goTo = function(loc)
   if position.x ~= loc.x then
     dir = vector.new(loc.x-position.x, 0, 0)
     while position.x ~= loc.x do
-      go(dir)
+      move(dir)
     end
   end
   --print('matching y...')
   if position.y ~= loc.y then
     dir = vector.new(0, loc.y-position.y, 0)
     while position.y ~= loc.y do
-      go(dir)
+      move(dir)
     end
   end
   --print('matching z...')
   if (position.z ~= loc.z) then
     dir = vector.new(0, 0, loc.z-position.z)
     while position.z ~= loc.z do
-      go(dir)
+      move(dir)
     end
   end
 end
@@ -191,29 +191,29 @@ print('Discovering room size...')
 
 -- Z direction
 while not turtle.compareUp() do
-  goUp()
+  moveUp()
 end
 -- Eat the border item
-goUp()
+moveUp()
 roomVector.z = position.z
 print('Z: ', roomVector.z + 1)
 
 -- Y direction
 while not turtle.compare() do
-  goForward()
+  moveForward()
 end
 -- Eat the border item
-goForward()
+moveForward()
 roomVector.y = position.y
 print('Y: ', roomVector.y + 1)
 
 -- X direction
 turnRight()
 while not turtle.compare() do
-  goForward()
+  moveForward()
 end
 -- Eat the border item
-goForward()
+moveForward()
 roomVector.x = position.x
 print('X: ', roomVector.x + 1)
 
@@ -221,7 +221,7 @@ goTo(vector.new(0, 0, roomVector.z))
 
 goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
 while position.z ~= 0 do
-  goDown()
+  moveDown()
   goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
 end
 
