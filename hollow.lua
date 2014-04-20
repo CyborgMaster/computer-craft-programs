@@ -219,12 +219,11 @@ print('X: ', roomVector.x + 1)
 
 goTo(vector.new(0, 0, roomVector.z))
 
-out = false
-repeat
-  goTo(vector.new(out and 0 or roomVector.x, position.y, position.z))
-  out = not out
+goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
+while position.z ~= 0 do
   goDown()
-until position.z == 0
+  goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
+end
 
 goHome()
 face(NORTH)
