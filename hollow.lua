@@ -193,12 +193,12 @@ insideRoom = function(vector)
   return inside(ORIGIN, roomVector, vector)
 end
 
-bounce = function(direction, afterEvery)
+bounce = function(direction, beforeEvery)
   while insideRoom(position + direction) do
-    move(direction)
-    if type(afterEvery) == 'function' then
-      afterEvery()
+    if type(beforeEvery) == 'function' then
+      beforeEvery()
     end
+    move(direction)
   end
   return direction * -1;
 end
@@ -250,12 +250,6 @@ roomVector = vector.new(12,14,2)
 
 goTo(vector.new(0, 0, roomVector.z))
 
--- goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
--- while position.z ~= 0 do
---   moveDown()
---   goTo(vector.new(position.x == 0 and roomVector.x or 0, position.y, position.z))
--- end
-
 xDir = vector.new(1, 0, 0)
 zDir = vector.new(0, 0, -1)
 
@@ -264,6 +258,8 @@ while true do
                 function()
                   xDir = bounce(xDir)
                 end)
+  if not insideRoom(position + NORTH) then break end
+  move(NORTH)
 end
 
 goHome()
