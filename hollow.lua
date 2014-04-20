@@ -190,8 +190,8 @@ inside = function(boundary1, boundary2, vector)
 end
 
 bounce = function(direction)
-  while inside(ORIGN, roomVector, position + direction) do
-    go(direction)
+  while inside(ORIGIN, roomVector, position + direction) do
+    move(direction)
   end
   return direction * -1;
 end
@@ -236,9 +236,10 @@ end
 turtle.select(1)
 
 print('Hollowing room...')
-print('Discovering room size...')
 
-roomVector = discoverRoomSize()
+print('Discovering room size...')
+-- roomVector = discoverRoomSize()
+roomVector = vector.new(12,14,2)
 
 goTo(vector.new(0, 0, roomVector.z))
 
