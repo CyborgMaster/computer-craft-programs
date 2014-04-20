@@ -29,11 +29,12 @@ end
 checkFuel = function()
   if turtle.getFuelLevel() <= 0 then
     print('Out of fuel! Place fuel in slot 2.')
-    oldSelected = turtle.getSelectedSlot()
+    -- oldSelected = turtle.getSelectedSlot() -- Only available in CC 1.6
+    oldSelected = 1
     turtle.select(2)
-    while turtle.getFuelLevel <= 0 do
-      turtle.refuel()
+    while turtle.getFuelLevel() <= 0 do
       sleep(10)
+      turtle.refuel()
     end
     turtle.select(oldSelected)
   end
@@ -62,6 +63,7 @@ ensureBorderItem = function()
     while turtle.getItemCount(1) <= 0 do
       sleep(1)
     end
+    turtle.select(1)
   end
 end
 
@@ -77,6 +79,7 @@ end
 
 digForward = function()
   while turtle.detect() do -- loop to handle sand and gravel
+    checkInventory()
     turtle.dig()
   end
 end
@@ -93,6 +96,7 @@ end
 
 digUp = function()
   while turtle.detectUp() do -- loop to handle sand and gravel
+    checkInventory()
     turtle.digUp()
   end
 end
@@ -108,7 +112,8 @@ moveDown = function()
 end
 
 digDown = function()
-  if turtle.detectDown() then
+  while turtle.detectDown() do
+    checkInventory()
     turtle.digDown()
   end
 end
