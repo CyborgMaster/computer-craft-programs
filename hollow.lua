@@ -26,8 +26,23 @@ isDirection = function(v)
     vecEql(v, WEST)
 end
 
+checkFuel = function()
+  if turtle.getFuelLevel() <= 0 then
+    print('Out of fuel! Place fuel in slot 2.')
+    oldSelected = turtle.getSelected()
+    turtle.select(2)
+    while true do
+      turtle.refuel()
+      if turtle.getFuelLevel > 0 then break end
+      sleep(10)
+    end
+    turtle.select(oldSelected)
+  end
+end
+
 moveForward = function()
   digForward()
+  checkFuel()
   while not turtle.forward() do
     print('Something is in my way!')
     sleep(1)
@@ -43,6 +58,7 @@ end
 
 moveUp = function()
   digUp()
+  checkFuel()
   while not turtle.up() do
     print('Something is in my way!')
     sleep(1)
@@ -58,6 +74,7 @@ end
 
 moveDown = function()
   digDown()
+  checkFuel()
   while not turtle.down() do
     print('Something is in my way!')
     sleep(1)
