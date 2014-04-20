@@ -194,10 +194,11 @@ insideRoom = function(vector)
 end
 
 bounce = function(direction, beforeEvery)
-  while insideRoom(position + direction) do
+  while true do
     if type(beforeEvery) == 'function' then
       beforeEvery()
     end
+    if not insideRoom(position + direction) then break end
     move(direction)
   end
   return direction * -1;
@@ -245,15 +246,16 @@ turtle.select(1)
 print('Hollowing room...')
 
 print('Discovering room size...')
--- roomVector = discoverRoomSize()
-roomVector = vector.new(12,14,2)
+roomVector = discoverRoomSize()
 
+print('Going to start location...')
 goTo(vector.new(0, 0, roomVector.z))
 
 xDir = vector.new(1, 0, 0)
 zDir = vector.new(0, 0, -1)
 
 while true do
+  print('Hollowing slice...')
   zDir = bounce(zDir,
                 function()
                   xDir = bounce(xDir)
@@ -265,4 +267,4 @@ end
 goHome()
 face(NORTH)
 
-print('Size: ', roomVector + vector.new(1, 1, 1))
+print('Finished hollowing room of size: ', roomVector + vector.new(1, 1, 1))
