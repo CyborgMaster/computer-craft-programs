@@ -101,10 +101,10 @@ face = function(direction)
   end
 
   if not(isDirection(direction)) then
-    error(direction..' is not a valid direction vector'
+    error(direction..' is not a valid direction vector')
   end
 
-  print('Turning to face: ', direction)
+  --print('Turning to face: ', direction)
   if vecEql(facing, NORTH) then
     if vecEql(direction, EAST) then
       turnRight()
@@ -158,21 +158,21 @@ goTo = function(loc)
 
   print('Going to ', loc)
 
-  print('matching x...')
+  --print('matching x...')
   if position.x ~= loc.x then
     dir = vector.new(loc.x-position.x, 0, 0)
     while position.x ~= loc.x do
       go(dir)
     end
   end
-  print('matching y...')
+  --print('matching y...')
   if position.y ~= loc.y then
     dir = vector.new(0, loc.y-position.y, 0)
     while position.y ~= loc.y do
       go(dir)
     end
   end
-  print('matching z...')
+  --print('matching z...')
   if (position.z ~= loc.z) then
     dir = vector.new(0, 0, loc.z-position.z)
     while position.z ~= loc.z do
